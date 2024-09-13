@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Antenna Deployment Creator</title>
+    <title>Alpha Wireless Deployment Creator</title>
     <style>
         /* Global Styles */
         body {
@@ -29,7 +29,7 @@
 
         #options h1 {
             margin-top: 0;
-            color: #0099cc;
+            color: #ffffff; /* Changed from #0099cc to #ffffff */
         }
 
         .option {
@@ -54,7 +54,7 @@
             width: 50%;
             position: relative;
             overflow: hidden;
-            background-color: #0099cc;
+            background-color: #ffffff; /* Changed from #0099cc to #ffffff */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -81,10 +81,11 @@
     <div id="container">
         <!-- Options Panel -->
         <div id="options">
-            <h1>Antenna Deployment Creator</h1>
+            <h1>Alpha Wireless Deployment Creator</h1> <!-- Updated title and color -->
             <div class="option">
                 <label for="pole">Pole:</label>
                 <select id="pole">
+                    <option value="none">None</option> <!-- Added 'None' option -->
                     <option value="composite">Composite</option>
                     <option value="lamppost">Lamppost</option>
                 </select>
@@ -106,6 +107,7 @@
             <div class="option">
                 <label for="cabinet">Cabinet:</label>
                 <select id="cabinet">
+                    <option value="none">None</option> <!-- Added 'None' option -->
                     <option value="barrade">Barrade</option>
                     <option value="constant">Constant</option>
                     <option value="constant-raised">Constant Raised</option>
@@ -115,6 +117,7 @@
             <div class="option">
                 <label for="power">Power:</label>
                 <select id="power">
+                    <option value="none">None</option> <!-- Added 'None' option -->
                     <option value="olt">OLT</option>
                     <option value="barrade-power">Barrade Power</option>
                 </select>
@@ -125,7 +128,7 @@
                     <option value="urban">Urban</option>
                     <option value="suburban">Suburban</option>
                     <option value="rural">Rural</option>
-                    <option value="transparent">Transparent</option>
+                    <option value="transparent">Transparent</option> <!-- Now displays an image -->
                 </select>
             </div>
         </div>
@@ -176,13 +179,13 @@
             // Create an array of images to display, in the correct order
             const images = [];
 
-            // Background image
-            if (background !== 'transparent') {
-                images.push(`images/${background}.png`);
-            }
+            // Background image (always add)
+            images.push(`images/${background}.png`);
 
             // Pole image
-            images.push(`images/${pole}.png`);
+            if (pole !== 'none') {
+                images.push(`images/${pole}.png`);
+            }
 
             // Fusion image
             if (fusion === 'yes') {
@@ -195,10 +198,14 @@
             }
 
             // Cabinet image
-            images.push(`images/${cabinet}.png`);
+            if (cabinet !== 'none') {
+                images.push(`images/${cabinet}.png`);
+            }
 
             // Power image
-            images.push(`images/${power}.png`);
+            if (power !== 'none') {
+                images.push(`images/${power}.png`);
+            }
 
             // Add each image to the image container
             images.forEach(function(src) {
