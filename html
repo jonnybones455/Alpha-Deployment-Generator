@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Antenna Deployment Creator</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        /* Container */
+        #container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Options Panel */
+        #options {
+            width: 50%;
+            background-color: #153077;
+            color: #ffffff;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        #options h1 {
+            margin-top: 0;
+            color: #0099cc;
+        }
+
+        .option {
+            margin-bottom: 20px;
+        }
+
+        .option label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .option select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        /* Display Panel */
+        #display {
+            width: 50%;
+            position: relative;
+            overflow: hidden;
+            background-color: #0099cc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #image-container {
+            position: relative;
+            width: 75%;
+            max-width: 750px;
+            padding-top: calc(2000 / 1500 * 100%); /* Maintain aspect ratio */
+        }
+
+        #image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- Options Panel -->
+        <div id="options">
+            <h1>Antenna Deployment Creator</h1>
+            <div class="option">
+                <label for="pole">Pole:</label>
+                <select id="pole">
+                    <option value="composite">Composite</option>
+                    <option value="lamppost">Lamppost</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="fusion">Fusion:</label>
+                <select id="fusion">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="shroud">Shroud:</label>
+                <select id="shroud">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="cabinet">Cabinet:</label>
+                <select id="cabinet">
+                    <option value="barrade">Barrade</option>
+                    <option value="constant">Constant</option>
+                    <option value="constant-raised">Constant Raised</option>
+                    <option value="constant-elevated">Constant Elevated</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="power">Power:</label>
+                <select id="power">
+                    <option value="olt">OLT</option>
+                    <option value="barrade-power">Barrade Power</option>
+                </select>
+            </div>
+            <div class="option">
+                <label for="background">Background:</label>
+                <select id="background">
+                    <option value="urban">Urban</option>
+                    <option value="suburban">Suburban</option>
+                    <option value="rural">Rural</option>
+                    <option value="transparent">Transparent</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Display Panel -->
+        <div id="display">
+            <div id="image-container">
+                <!-- Images will be layered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Get references to the select elements
+        const poleSelect = document.getElementById('pole');
+        const fusionSelect = document.getElementById('fusion');
+        const shroudSelect = document.getElementById('shroud');
+        const cabinetSelect = document.getElementById('cabinet');
+        const powerSelect = document.getElementById('power');
+        const backgroundSelect = document.getElementById('background');
+
+        const imageContainer = document.getElementById('image-container');
+
+        // Add event listeners to update the image when options change
+        poleSelect.addEventListener('change', updateImage);
+        fusionSelect.addEventListener('change', updateImage);
+        shroudSelect.addEventListener('change', updateImage);
+        cabinetSelect.addEventListener('change', updateImage);
+        powerSelect.addEventListener('change', updateImage);
+        backgroundSelect.addEventListener('change', updateImage);
+
+        // Initialize the image on page load
+        updateImage();
+
+        function updateImage() {
+            // Clear the image container
+            imageContainer.innerHTML = '';
+
+            // Get selected values
+            const pole = poleSelect.value;
+            const fusion = fusionSelect.value;
+            const shroud = shroudSelect.value;
+            const cabinet = cabinetSelect.value;
+            const power = powerSelect.value;
+            const background = backgroundSelect.value;
+
+            // Create an array of images to display, in the correct order
+            const images = [];
+
+            // Background image
+            if (background !== 'transparent') {
+                images.push(`images/${background}.png`);
+            }
+
+            // Pole image
+            images.push(`images/${pole}.png`);
+
+            // Fusion image
+            if (fusion === 'yes') {
+                images.push(`images/fusion.png`);
+            }
+
+            // Shroud image
+            if (shroud === 'yes') {
+                images.push(`images/shroud.png`);
+            }
+
+            // Cabinet image
+            images.push(`images/${cabinet}.png`);
+
+            // Power image
+            images.push(`images/${power}.png`);
+
+            // Add each image to the image container
+            images.forEach(function(src) {
+                const img = document.createElement('img');
+                img.src = src;
+                imageContainer.appendChild(img);
+            });
+        }
+    </script>
+</body>
+</html>
